@@ -1,3 +1,5 @@
+package cmsc141_divisibilityautomata;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,7 +7,10 @@
  */
 import cmsc141_divisibilityautomata.TransitionTable;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -17,28 +22,28 @@ public class CMSC141_DivisibilityAutomata {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Hashtable multiples = new Hashtable();
+        HashMap<Integer, TransitionTable> multiples = new HashMap<>();
         for(int i = 2; i < 10; i++){
             TransitionTable tTable = new TransitionTable(i);
             tTable.populateTable();
             
-            int[][] arrayTable = tTable.transistion;
-            System.out.println("Numeber: " + i);
-            for(int state = 0; state<i; state++){
-                for (int remainder = 0; remainder < i; remainder++){
+            multiples.put(i, tTable);
+        }
+        //Print the all the values that the HashMap contains
+        Set set = multiples.entrySet();
+        Iterator i = set.iterator();
+        while(i.hasNext()){
+            Map.Entry me = (Map.Entry) i.next();
+            System.out.print("Number " + me.getKey()+ ":\n");
+            TransitionTable table = (TransitionTable) me.getValue();
+            int[][] arrayTable = table.transistion;
+            for(int state = 0; state<(int) me.getKey(); state++){
+                for (int remainder = 0; remainder < (int)me.getKey(); remainder++){
                     System.out.print(arrayTable[state][remainder] + " | ");
                 }
                 System.out.println("\n");
             }
-            multiples.put(i, new TransitionTable(i));
-        }        
-        Enumeration divisor;
-        divisor = multiples.keys();
-        while(divisor.hasMoreElements()) {
-            int num = (int) divisor.nextElement();
-            System.out.println(num + ": " +
-            tTable = (TransitionTable) multiples.get(num);
-      }
+        }
     }
     
 }
