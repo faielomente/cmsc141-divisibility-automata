@@ -5,12 +5,13 @@ package cmsc141_divisibilityautomata;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import cmsc141_divisibilityautomata.TransitionTable;
+import cmsc141_divisibilityautomata.DFA;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,9 +23,10 @@ public class CMSC141_DivisibilityAutomata {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        HashMap<Integer, TransitionTable> multiples = new HashMap<>();
+        HashMap<Integer, DFA> multiples = new HashMap<>();
+        //Creates and store transition table
         for(int i = 2; i < 10; i++){
-            TransitionTable tTable = new TransitionTable(i);
+            DFA tTable = new DFA(i);
             tTable.populateTable();
             
             multiples.put(i, tTable);
@@ -32,18 +34,32 @@ public class CMSC141_DivisibilityAutomata {
         //Print the all the values that the HashMap contains
         Set set = multiples.entrySet();
         Iterator i = set.iterator();
+//        while(i.hasNext()){
+//            Map.Entry me = (Map.Entry) i.next();
+//            System.out.print("Number " + me.getKey()+ ":\n");
+//            DFA table = (DFA) me.getValue();
+//            int[][] arrayTable = table.transistion;
+//            for(int state = 0; state<(int) me.getKey(); state++){
+//                for (int remainder = 0; remainder < (int)me.getKey(); remainder++){
+//                    System.out.print(arrayTable[state][remainder] + " | ");
+//                }
+//                System.out.println("\n");
+//            }
+//        }
+        
+        String input = "123458";
+        ArrayList<Integer> list = new ArrayList<>();
         while(i.hasNext()){
             Map.Entry me = (Map.Entry) i.next();
             System.out.print("Number " + me.getKey()+ ":\n");
-            TransitionTable table = (TransitionTable) me.getValue();
-            int[][] arrayTable = table.transistion;
-            for(int state = 0; state<(int) me.getKey(); state++){
-                for (int remainder = 0; remainder < (int)me.getKey(); remainder++){
-                    System.out.print(arrayTable[state][remainder] + " | ");
-                }
-                System.out.println("\n");
+            DFA table = (DFA) me.getValue();
+            boolean output = table.processInput(input);
+            if(output == true){
+                list.add((Integer)me.getKey());
             }
+            System.out.println(output);
         }
+        
+        System.out.println("LCM:" + list.toString());
     }
-    
 }
