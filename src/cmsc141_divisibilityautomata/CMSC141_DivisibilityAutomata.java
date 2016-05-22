@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -46,8 +47,8 @@ public class CMSC141_DivisibilityAutomata {
 //                System.out.println("\n");
 //            }
 //        }
-        
-        String input = "123458";
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
         ArrayList<Integer> list = new ArrayList<>();
         while(i.hasNext()){
             Map.Entry me = (Map.Entry) i.next();
