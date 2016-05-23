@@ -2,38 +2,51 @@
 <html>
 <head>
   <title>Automata Illustration</title>
-  <script scr="go-debug.js"></script>
-  <script>
-    var attributes =
-    {
-      id:'main',
-      code: 'cmsc141_divisibilityautomata.CMSC141_DivisibilityAutomata',
-      width:1, height:1
-    }
-    var parameters = { jnlp_href: 'math_applet.jnlp'} ;
-
-    deployJava.runApplet(attributes, parameters, '1.6');
-  </script>
-
-  <script id="jscode">
-    var $ = go.GraphObject.make;
-    var myDiagram = $(go.Diagram, "myDiagramDiv",
-      {
-        initialContentAlignment: go.Spot.Center, // center Diagram contents
-        "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
-      });
-    var myModel = $(go.Model);
-    //PROBLEM: JSTOJAVA data retrieval;
-    //myModel.nodeDataArray =
-
-    function runMain() {
-      main.main();
-    }
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.6.7/go-debug.js"></script>
 </head>
 
 <body>
-<div id="myDiagramDiv" style="width:100%; height:100%; background-color: #DAE4E4;">
-</div>
+  <!-- The DIV for a Diagram needs an explicit size or else we will not see anything.
+     In this case we also add a background color so we can see that area. -->
+  <div id="myDiagramDiv"
+     style="width:100%; height:100%; background-color: #DAE4E4;"></div>
+
+  <script id="jscode">
+    var $ = go.GraphObject.make;
+    var myDiagram =
+      $(go.Diagram, "myDiagramDiv",
+        {
+          initialContentAlignment: go.Spot.Center, // center Diagram contents
+          "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
+        });
+
+    var myModel = $(go.Model);
+    // in the model data, each node is represented by a JavaScript object:
+    myModel.nodeDataArray = [
+      { key: "Alpha" },
+      { key: "Beta" },
+      { key: "Gamma" }
+    ];
+    myDiagram.model = myModel;
+    myDiagram.nodeTemplate =
+      $(go.Node, "Horizontal",
+        { locationSpot: go.Spot.Center,  // Node.location is the center of the Shape
+          locationObjectName: "SHAPE",
+          selectionAdorned: false,
+          selectionChanged: nodeSelectionChanged },
+        $(go.Panel, "Auto",
+          $(go.Shape, "Ellipse",
+            { name: "SHAPE",
+              fill: "lightgray",  // default value, but also data-bound
+              stroke: "transparent",  // modified by highlighting
+              strokeWidth: 2,
+              desiredSize: new go.Size(30, 30),
+              portId: "" },  // so links will go to the shape, not the whole node
+            new go.Binding("fill", "isSelected", function(s, obj) { return s ? "red" : obj.part.data.color; }).ofObject()),
+          $(go.TextBlock,
+            new go.Binding("text", "distance", function(d) { if (d === Infinity) return "INF"; else return d | 0; }))),
+        $(go.TextBlock,
+          new go.Binding("text")));
+  </script>
 </body>
 </html>
