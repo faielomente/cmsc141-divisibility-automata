@@ -5,7 +5,7 @@ package cmsc141_divisibilityautomata;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import cmsc141_divisibilityautomata.DFA;
+import java.applet.Applet;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +18,7 @@ import java.util.Scanner;
  *
  * @author parfait
  */
-public class CMSC141_DivisibilityAutomata {
+public class CMSC141_DivisibilityAutomata extends Applet {
 
     /**
      * @param args the command line arguments
@@ -29,7 +29,7 @@ public class CMSC141_DivisibilityAutomata {
         for(int i = 2; i < 10; i++){
             DFA tTable = new DFA(i);
             tTable.populateTable();
-            
+
             multiples.put(i, tTable);
         }
         //Print the all the values that the HashMap contains
@@ -39,7 +39,7 @@ public class CMSC141_DivisibilityAutomata {
 //            Map.Entry me = (Map.Entry) i.next();
 //            System.out.print("Number " + me.getKey()+ ":\n");
 //            DFA table = (DFA) me.getValue();
-//            int[][] arrayTable = table.transistion;
+//            int[][] arrayTable = table.transition;
 //            for(int state = 0; state<(int) me.getKey(); state++){
 //                for (int remainder = 0; remainder < (int)me.getKey(); remainder++){
 //                    System.out.print(arrayTable[state][remainder] + " | ");
@@ -60,7 +60,7 @@ public class CMSC141_DivisibilityAutomata {
             }
             System.out.println(output);
         }
-        
+
         System.out.println("LCM:" + list.toString());
     }
 }
