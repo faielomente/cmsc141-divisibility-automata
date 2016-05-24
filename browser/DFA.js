@@ -79,15 +79,14 @@ function init(divisor) {
           padding: 10,
           contentAlignment: go.Spot.Center,
           layout: $(go.ForceDirectedLayout, { defaultSpringLength: 10 }),
-          maxSelectionCount: 2
         });
     // define the Node template
     myDiagram.nodeTemplate =
-      $(go.Node, "Horizontal",
+      $(go.Node, "Auto",
         { locationSpot: go.Spot.Center,  // Node.location is the center of the Shape
           locationObjectName: "SHAPE",
           selectionAdorned: false,
-          selectionChanged: nodeSelectionChanged },
+        },
         $(go.Panel, "Auto",
           $(go.Shape, "Ellipse",
             { name: "SHAPE",
@@ -95,8 +94,8 @@ function init(divisor) {
               stroke: "transparent",  // modified by highlighting
               strokeWidth: 2,
               desiredSize: new go.Size(50, 50),
-              portId: "" },  // so links will go to the shape, not the whole node
-            new go.Binding("fill", "isSelected", function(s, obj) { return s ? "red" : obj.part.data.color; }).ofObject()),
+              portId: "" },
+              new go.Binding("fill", "color")), // so links will go to the shape, not the whole node
         $(go.TextBlock,
           new go.Binding("text", "value")))
         );
@@ -117,31 +116,7 @@ function init(divisor) {
           new go.Binding("stroke", "color")),
         $(go.Shape, { toArrow: "Standard" })
       );
-    // Override the clickSelectingTool's standardMouseSelect
-    // If less than 2 nodes are selected, always add to the selection
-    myDiagram.toolManager.clickSelectingTool.standardMouseSelect = function() {
-      var diagram = this.diagram;
-      if (diagram === null || !diagram.allowSelect) return;
-      var e = diagram.lastInput;
-      var count = diagram.selection.count;
-      var curobj = diagram.findPartAt(e.documentPoint, false);
-      if (curobj !== null) {
-        if (count < 2) {  // add the part to the selection
-          if (!curobj.isSelected) {
-            var part = curobj;
-            if (part !== null) part.isSelected = true;
-          }
-        } else {
-          if (!curobj.isSelected) {
-            var part = curobj;
-            if (part !== null) diagram.select(part);
-          }
-        }
-      } else if (e.left && !(e.control || e.meta) && !e.shift) {
-        // left click on background with no modifier: clear selection
-        diagram.clearSelection();
-      }
-    }
+
     generateGraph(divisor);
     // select two nodes that connect from the first one to the second one
     var num = myDiagram.model.nodeDataArray.length;
@@ -182,26 +157,6 @@ function init(divisor) {
   // When a node is selected show distances from the first selected node.
   // When a second node is selected, highlight the shortest path between two selected nodes.
   // If a node is deselected, clear all highlights.
-  function nodeSelectionChanged(node) {
-    var diagram = node.diagram;
-    if (diagram === null) return;
-    diagram.clearHighlighteds();
-    if (node.isSelected) {
-      // when there is a selection made, always clear out the list of all paths
-      var sel = document.getElementById("myPaths");
-      sel.innerHTML = "";
-      // show the distance for each node from the selected node
-      var begin = diagram.selection.first();
-      // showDistances(begin);
-      // if (diagram.selection.count === 2) {
-      //   var end = node;  // just became selected
-      //   // highlight the shortest path
-      //   // highlightShortestPath(begin, end);
-      //   // list all paths
-      //   listAllPaths(begin, end);
-      // }
-    }
-  }
 
   function highlightSelectedPath() {
     var sel = document.getElementById("myPaths");
@@ -221,4 +176,5 @@ function init(divisor) {
         var b = myDiagram.findNodeForKey(path[i+1]);
         a.findLinksTo(b).each(function(l) { l.isHighlighted = true; });
     }
+    myDiagram.commitTransaction("highlight");
   }
