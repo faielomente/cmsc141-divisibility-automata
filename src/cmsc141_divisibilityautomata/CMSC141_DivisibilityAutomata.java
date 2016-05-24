@@ -61,6 +61,6 @@ public class CMSC141_DivisibilityAutomata extends Applet {
             System.out.println(output);
         }
 
-        System.out.println("LCM:" + list.toString());
+        System.out.println("Multiples:" + list.toString());
     }
 }
