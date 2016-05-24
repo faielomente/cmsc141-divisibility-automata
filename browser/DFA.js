@@ -158,7 +158,6 @@ function init(divisor) {
     myDiagram.clearHighlighteds();
     for (var i = 0; i < path.length; i++) {
         if (i == path.length-1){
-          b.color = "yellowgreen"
           break;
         }
         var a = myDiagram.findNodeForKey(path[i]);
