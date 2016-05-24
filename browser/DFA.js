@@ -157,8 +157,10 @@ function init(divisor) {
     myDiagram.startTransaction("highlight");
     myDiagram.clearHighlighteds();
     for (var i = 0; i < path.length; i++) {
-        if (i == path.length-1)
-            break;
+        if (i == path.length-1){
+          b.color = "yellowgreen"
+          break;
+        }
         var a = myDiagram.findNodeForKey(path[i]);
         var b = myDiagram.findNodeForKey(path[i+1]);
         a.findLinksTo(b).each(function(l) { l.isHighlighted = true; });
