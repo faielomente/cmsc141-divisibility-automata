@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.6.7/go-debug.js"></script>
     <script src="DFA.js"></script>
 </head>
-<body>
-Input Number:<br>
-<input type="text" id="input" value="12345"> <br>
-<!-- Divisor:<br>
-<input type="text" id="divisor" value="9"> <br> -->
-<button onclick="main() ">Process</button>
-
-<p id="demo"></p>
-
+<body onload="init()">
+ <div id="myDiagramDiv"
+     style="width:100%; height:100%; background-color: #DAE4E4;"></div>
+<div>
+    Input Number:<br>
+    <input type="text" id="input" value="12345"> <br>
+    Divisor:<br>
+    <input type="text" id="divisor" value="9"> <br>
+    <button onclick="main() ">Process</button>
+</div>
+<div id="sample">
+  <select id="myPaths" style="min-width:100px" size="10"></select>
+</div>
 </body>
 </html>
