@@ -19,7 +19,6 @@ function main() {
     // }
     create2dArray(divisor);
     populateTable(divisor);
-    isMultiple(divisor);
     if (isMultiple(divisor) == true) {
         list.push(divisor);
     }
@@ -54,7 +53,7 @@ function isMultiple(divisor){
     paths.push(transitions[state][remainder]);
     for (var i = 0; i < input.length; i++) {
         var temp = Number(input[i]);
-        remainder = ((state*10)+temp)%divisor;
+        remainder = temp%divisor;
         console.log("State: " + transitions[state][remainder]);
         paths.push(transitions[state][remainder]);
         next = transitions[state][remainder];
@@ -378,10 +377,14 @@ function init(divisor) {
   }
   // Highlight a particular path, a List of Nodes.
   function highlightPath(path) {
+    myDiagram.startTransaction("highlight");
     myDiagram.clearHighlighteds();
-    for (var i = 0; i < path.count - 1; i++) {
-      var f = path.elt(i);
-      var t = path.elt(i + 1);
-      f.findLinksTo(t).each(function(l) { l.isHighlighted = true; });
+    for (var i = 0; i < path.length; i++) {
+
     }
+    // for (var i = 0; i < path.count - 1; i++) {
+    //   var f = path.elt(i);
+    //   var t = path.elt(i + 1);
+    //   f.findLinksTo(t).each(function(l) { l.isHighlighted = true; });
+    // }
   }

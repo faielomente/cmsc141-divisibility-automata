@@ -36,7 +36,7 @@ public class DFA {
         for(int i = 0; i < input.length(); i++){
             int temp = Integer.parseUnsignedInt(String.valueOf(input.charAt(i)));
             remainder = temp%divisor;
-            System.out.println("State: " + state + "---" + remainder +  "-" +transition[state][remainder]);
+            System.out.println(+transition[state][remainder]);
             state = transition[state][remainder];
         }
         System.out.println("finalState: " + state);
